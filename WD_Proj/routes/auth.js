@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/signUp", async (req, res) => {
     try {
-        const { email, password, firstName, lastName, role } = req.body;
+        const { email, password,role } = req.body;
         let user;
 
         // Choose the appropriate model based on the role
