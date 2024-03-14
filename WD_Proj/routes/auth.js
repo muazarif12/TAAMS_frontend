@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/signUp", async (req, res) => {
     try {
-        const { email, password,role } = req.body;
+        const { email, password,role} = req.body;
         let user;
 
         // Choose the appropriate model based on the role
@@ -71,7 +71,7 @@ router.post("/login", async (req, res) => {
 
         const passwordCheck = await bcrypt.compare(password, user.password);
         if (!passwordCheck) return res.json({ msg: "Invalid credentials" });
-
+        // update this to have different attributes for teacher and student
         const token = jwt.sign({
             email,
             createdAt: new Date(),

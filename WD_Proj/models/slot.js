@@ -18,6 +18,11 @@ const slotSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    TAassigned: {
+        type: Boolean,
+        default: false,
+        required: true,
+    },
     description:{
         type: String,
         required: false,
