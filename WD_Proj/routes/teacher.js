@@ -6,7 +6,7 @@ var express = require("express");
 var router = express.Router();
 
 
-router.post("/getSlotsbySectionId", async (req, res) => {
+router.post("/getSlotbySectionId", async (req, res) => {
     try{
         const {sectionId} = req.body
         let sv = await slot.find({sectionId: sectionId}).populate("teacher")
@@ -67,6 +67,18 @@ router.post("/updateSlot", async (req, res) => {
         console.error(error);
     }
 })
+
+// Accept app
+// reject app
+// view apps by sectionId
+// view apps by teacherId
+// view student profile
+// favoiurite apps
+// add teacher feedback for TA
+// update profile
+ 
+
+
 
 
 

@@ -7,12 +7,9 @@ const slotSchema = new mongoose.Schema({
         required: true
     },
     course: {
-        type: String,
-        required: true,
-    },
-    courseId: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'course', // Reference to the course model
+        required: true
     },
     sectionId: {
         type: String,

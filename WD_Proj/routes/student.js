@@ -1,8 +1,11 @@
 const student = require('../models/student');
 const application = require('../models/application');
 const slot = require('../models/slot');
+const course = require('../models/course');
+const teacherCourse = require('../models/teacherCourse');
 
 var express = require('express');
+const teacher = require('../models/teacher');
 var router = express.Router();
 
 router.use(async (req, res, next) => {
@@ -11,7 +14,7 @@ router.use(async (req, res, next) => {
 })
 
 
-router.get('/viewApplications', async (req, res) => {
+router.get('/viewMyApplications', async (req, res) => {
     try {
         let user = await student.findOne({ email: req.user.email });
         let sv = await application.find({student: user._id }).populate('slot');
@@ -28,6 +31,41 @@ router.get('/viewAllslots', async (req, res) => {
     
         if (!sv) return res.json({ msg: 'No slots found' });
         return res.json({ sv });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.post('/getAllSlotbyteacherId', async (req, res) => {
+    try {
+        const { teacherId } = req.body;
+        let tv = await teacher.find({ teacherId: teacherId });
+        let sv = await slot.find({ teacher: tv._id });
+        if (!sv) return res.json({ msg:'The teacher has not opened any slots'});
+        return res.json({ sv });
+    } catch (error) {
+        console.error(error);
+    }
+});
+ 
+router.post('/getAllSlotsbyCourseId', async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        let cv = await course.find({ courseId: courseId });
+        let sv = await slot.find({ course: cv._id });
+        if (!sv) return res.json({ msg: 'No slots found for this course' });
+        return res.json({ sv });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.post('/getTeacherInfo', async (req, res) => {
+    try {
+        const { teacherId } = req.body;
+        let tv = await teacher.findOne({ teacherId: teacherId }).select('email firstName lastName department coursesTeaching');
+        if (!tv) return res.json({ msg: 'Teacher not found' });
+        return res.json({ tv });
     } catch (error) {
         console.error(error);
     }
