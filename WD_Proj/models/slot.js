@@ -11,11 +11,26 @@ const slotSchema = new mongoose.Schema({
         ref: 'course', // Reference to the course model
         required: true
     },
+    
+    teacherName: {
+        type: String,
+        required: false,
+    },
+    teacherEmail: {
+        type: String,
+        required: false,
+    },
+
+    applications: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'application'
+    }],
+
     sectionId: {
         type: String,
         required: true,
     },
-    TAassigned: {
+     TAassigned: {
         type: Boolean,
         default: false,
         required: true,

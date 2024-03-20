@@ -14,11 +14,14 @@ router.use(async (req, res, next) => {
 })
 
 
-router.get('/viewMyApplications', async (req, res) => {
+router.get('/viewApplicationStatus', async (req, res) => {
     try {
         let user = await student.findOne({ email: req.user.email });
-        let sv = await application.find({student: user._id }).populate('slot');
-        if (!sv || sv.length === 0) return res.json({ msg: 'No applications found ' });
+        let sv = await application.find({student: user._id }).populate(
+            [{path:"teacher", select:'firstName lastName'}, 
+             {path:"course", select: 'courseId courseName'}]
+            ).select('sectionId')
+        if (!sv || sv.length === 0) return res.json({ msg: 'No applications found' });
         return res.json({ sv });
     } catch (error) {
         console.error(error);
@@ -27,7 +30,7 @@ router.get('/viewMyApplications', async (req, res) => {
 
 router.get('/viewAllslots', async (req, res) => {
     try {
-        let sv = await slot.find({}).populate('teacher');     
+        let sv = await slot.find({}).select('sectionId')  
     
         if (!sv) return res.json({ msg: 'No slots found' });
         return res.json({ sv });
@@ -36,11 +39,11 @@ router.get('/viewAllslots', async (req, res) => {
     }
 });
 
-router.post('/getAllSlotbyteacherId', async (req, res) => {
+router.post('/getAllSlotbyEmail', async (req, res) => {
     try {
-        const { teacherId } = req.body;
-        let tv = await teacher.find({ teacherId: teacherId });
-        let sv = await slot.find({ teacher: tv._id });
+        const { email } = req.body;
+        let tv = await teacher.find({ email: email });
+        let sv = await slot.find({ teacher: tv._id }).select('sectionId');
         if (!sv) return res.json({ msg:'The teacher has not opened any slots'});
         return res.json({ sv });
     } catch (error) {
@@ -52,7 +55,7 @@ router.post('/getAllSlotsbyCourseId', async (req, res) => {
     try {
         const { courseId } = req.body;
         let cv = await course.find({ courseId: courseId });
-        let sv = await slot.find({ course: cv._id });
+        let sv = await slot.find({ course: cv._id }).select('sectionId');
         if (!sv) return res.json({ msg: 'No slots found for this course' });
         return res.json({ sv });
     } catch (error) {
@@ -71,6 +74,16 @@ router.post('/getTeacherInfo', async (req, res) => {
     }
 });
 
+router.get('/getAllTeachers', async (req, res) => {
+    try {
+        let tv = await teacher.find({}).select('teacherId email firstName lastName department coursesTeaching');
+        if (!tv) return res.json({ msg: 'No teachers found' });
+        return res.json({ tv });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 
 router.post('/applyforSlot', async (req, res) => {
     try {
@@ -78,10 +91,16 @@ router.post('/applyforSlot', async (req, res) => {
         let user = await student.findOne({ email: req.user.email });
         let sv = await slot.findOne({ sectionId });
         if (!sv) return res.json({ msg: 'Slot not open for this Section' });
-        let app1 = await application.findOne({ slot: sv._id, student: user._id }).populate('slot');
+        let app1 = await application.findOne({ slot: sv._id, studentEmail: user.email});  // no need to populate over here I think
     
         if (app1) return res.json({ msg: 'Application already exists' });    
-        await application.create({ student: user._id, slot:sv._id });
+        let newApp = await application.create({ studentName: user.firstName + " " + user.lastName,
+        studentEmail: user.email,
+        sectionId: sv.sectionId,
+        slot: sv._id });
+        
+        sv.applications.push(newApp._id);
+        await sv.save();
         return res.json({ msg: 'APPLICATION CREATED' });
     } catch (error) {
         console.error(error);
@@ -99,7 +118,10 @@ router.post('/deleteApplication', async (req, res) => {
         if(!app) return res.json({ msg: 'Application not found' });
         
         await application.deleteOne({ slot: sv._id, student: user._id});
+        await slot.updateOne({ sectionId: sectionId }, { $pull: { applications: app._id } });
+        
         return res.json({ msg: 'Application deleted successfully' });
+
     } catch (error) {
         console.error(error);
     }

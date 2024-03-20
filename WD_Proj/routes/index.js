@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const authRouter = require("./auth");
 const teacherRouter = require("./teacher");
 const studentRouter = require("./student");
+const adminRouter = require("./admin");
 
 router.use("/auth", authRouter);
 
@@ -19,7 +20,7 @@ router.use(async (req, res, next) => {
         return res.json({ msg: "TOKEN NOT FOUND / INVALID" })
     }
 })
-
+router.use("/admin", adminRouter);
 router.use("/teacher", teacherRouter);
 router.use("/student", studentRouter);
 

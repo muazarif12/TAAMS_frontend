@@ -7,6 +7,7 @@ const studentSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
     },
+    
     password: {
         type: String,
         required: true,
@@ -28,17 +29,9 @@ const studentSchema = new mongoose.Schema({
         type: String,
         
     },
-    CGPA: {
-        type: Number,
-    },
     semester: {
         type: Number,
     },
-    erpID: {
-        type: String,
-        required: true,
-    },
-
 
     createdAt: {
         type: Date,

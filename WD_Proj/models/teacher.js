@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const teacherSchema = new mongoose.Schema({
-    teacherID: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
+    
     email: {
         type: String,
         required: true,
@@ -34,9 +30,7 @@ const teacherSchema = new mongoose.Schema({
     },
     coursesTeaching: {
         type: [String],
-    },
-    sections: {
-        type: [String],
+        required: false,
     },
     createdAt: {
         type: Date,
