@@ -13,6 +13,9 @@ router.use(async (req, res, next) => {
     else next()
 })
 
+// admin will add course to the system
+ 
+
 router.post("/addCourse", async (req, res) => {
     try {
         const {courseID} = req.body;  
@@ -26,6 +29,8 @@ router.post("/addCourse", async (req, res) => {
     }
 });
 
+// admin will delete course from the system
+
 router.post("/deleteCourse", async (req, res) => {
     try {
         const { courseId } = req.body;
@@ -38,6 +43,8 @@ router.post("/deleteCourse", async (req, res) => {
     }
 });
 
+// admin will view all courses in the system
+
 router.get("/getCourses", async (req, res) => {
     try {
         let cv = await course.find({}).select('courseId courseName');
@@ -48,6 +55,7 @@ router.get("/getCourses", async (req, res) => {
     }
 });
 
+// admin will update course in the system
 router.put("/updateCourse/:courseID", async (req, res) => {
     try {
         const { courseID } = req.params;
@@ -71,16 +79,19 @@ router.put("/updateCourse/:courseID", async (req, res) => {
     }
 });
 
+// admin will assign course to teacher
 router.post("/assignCourseToTeacher", async (req, res) => {
     try{
         const{teacherEmail, courseID} = req.body
         let tv = await teacher.findOne({email:teacherEmail});
-        console.log("email:", teacherEmail);
         if(!tv) return res.json({msg: "Teacher not found"})
+        
         let cv = await course.findOne({courseID});
         if(!cv) return res.json({msg: "Course not found"})
+        
         let tcv = await teacherCourse.findOne({teacher:tv._id, course:cv._id});
         if(tcv) return res.json({msg: "The teacher is already assigned to this course"})
+        
         await teacherCourse.create({teacher:tv._id, course:cv._id});
         tv.coursesTeaching.push(cv.courseName); 
         await tv.save();  
@@ -88,14 +99,7 @@ router.post("/assignCourseToTeacher", async (req, res) => {
     }catch(error){
         console.error(error);
     }   
-});
-
-
-
-
-
-        //let tv = await teacherCourse.findOne({teacherEmail, courseID})
- 
+}); 
 
 
 module.exports = router;

@@ -43,18 +43,6 @@ const slotSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    duration: {
-        type: String,
-        required: false,
-    },
-    workHours:{
-        type: String,
-        required: false,
-    },
-    applicationDeadline:{
-        type: Date,
-        required: false,
-    },
     createdAt: {
         type: Date,
         default: Date.now,
