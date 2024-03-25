@@ -14,19 +14,20 @@ router.use(async (req, res, next) => {
 })
 
 
-router.get('/viewApplicationStatus', async (req, res) => {
+router.post('/viewApplicationStatus', async (req, res) => {
     try {
+
+        const {sectionId} = req.body
         let user = await student.findOne({ email: req.user.email });
-        let sv = await application.find({student: user._id }).populate(
-            [{path:"teacher", select:'firstName lastName'}, 
-             {path:"course", select: 'courseId courseName'}]
-            ).select('sectionId')
-        if (!sv || sv.length === 0) return res.json({ msg: 'No applications found' });
-        return res.json({ sv });
+        let app = await application.find({studentEmail: user.email, sectionId : sectionId}).select('-_id status ');
+        if (!app || app.length === 0) return res.json({ msg: 'No applications found' });
+        return res.json({ sv: app });
     } catch (error) {
         console.error(error);
     }
 });
+
+
 
 router.get('/viewAllslots', async (req, res) => {
     try {

@@ -17,7 +17,7 @@ router.post("/getSlotbySectionId", async (req, res) => {
             [{path:"teacher", select:'teacherID email firstName lastName'}, 
              {path:"course", select: 'courseId courseName'}]
             ).select('sectionId requirements duration workHours applicationDeadline createdAt')
-        if(!sv) return res.json({msg: "No slots found"})
+        if(!sv || sv.length === 0) return res.json({msg: "No slots found"})
         return res.json({sv})
     }catch(error){
         console.error(error)
@@ -82,7 +82,7 @@ router.patch("/updateSlot/:sectionId", async (req, res) => {
         
         let user = await teacher.findOne({ email: req.user.email });
         let sv = await slot.findOne({ sectionId: sectionId, teacher: user._id });
-        if (!sv) return res.json({ msg: "Slot not found or you are not authorized to update it" });
+        if (!sv) return res.json({ msg: "Slot not found " });
         
         
         await slot.findOneAndUpdate(
