@@ -33,10 +33,30 @@ const studentSchema = new mongoose.Schema({
         type: Number,
     },
 
-    createdAt: {
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    active: {
+        type: Boolean,
+        default: true,
+    },
+    createdby: {
+        type: String,
+        required: false,
+    },
+    updatedby: {
+        type: String,
+        required: false,
+    },
+    updatedAt: {
         type: Date,
         default: Date.now,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 });
 
 const student = mongoose.model('student', studentSchema);

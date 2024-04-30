@@ -24,10 +24,30 @@ const adminSchema = new mongoose.Schema({
         required: true,
 
     },
-    createdAt: {
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    active: {
+        type: Boolean,
+        default: true,
+    },
+    createdby: {
+        type: String,
+        required: false,
+    },
+    updatedby: {
+        type: String,
+        required: false,
+    },
+    updatedAt: {
         type: Date,
         default: Date.now,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 });
 
 const admin = mongoose.model('admin', adminSchema);

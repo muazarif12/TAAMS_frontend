@@ -1,12 +1,13 @@
 var createError = require('http-errors'); // 404 error handler for express app 
 var express = require('express');// Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
 const mongoose = require('mongoose'); // Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.
+const cors = require("cors")
 
 var app = express(); // Create an express app
 
 app.use(express.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property. 
 app.use(express.urlencoded({ extended: false })); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-
+app.use(cors());
 // Connect to MongoDB
 
 (async () => {
