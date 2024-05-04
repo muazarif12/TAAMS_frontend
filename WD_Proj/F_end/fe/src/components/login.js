@@ -2,22 +2,31 @@ import { TextField, Button } from '@mui/material';
 import { useFormik } from "formik";
 import axios from 'axios';
 import { NotificationManager } from "react-notifications";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/user.reducer";
 
 
 const LogIn = () => {
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
           email: '',
           password: '',
-          role : ''
+          role : '',
         },
-        onSubmit:async (values) => {
+        onSubmit: async (values) => {
           const response = await axios.post('http://localhost:5600/auth/login',values
         );
-            NotificationManager.success(response.data.msg);
-        },
-      });
+        if (response.data.msg === "Logged in" && response.status === 200) {
+          NotificationManager.success(response.data.msg);
+          dispatch(login(response.data.token));
+        }
+        else { NotificationManager.error(response.data.msg || response.data.msg) 
+        
+        }
+      },   
+    });  
     
     return (
           
