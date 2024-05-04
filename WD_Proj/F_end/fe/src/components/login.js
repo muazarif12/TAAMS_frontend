@@ -30,7 +30,7 @@ const LogIn = () => {
     
     return (
           
-        <form
+      <form
         style={{ display: "flex", flexDirection: "column" }}
         onSubmit={formik.handleSubmit}
       >  
@@ -60,7 +60,7 @@ const LogIn = () => {
               <Button type="Submit" variant="contained">logIn</Button>
             </form>  
          
-    )
-}
+    );
+};
 
 export default LogIn;

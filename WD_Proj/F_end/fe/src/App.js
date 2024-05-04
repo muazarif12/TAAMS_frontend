@@ -1,20 +1,18 @@
-import React from 'react'
-import axios from 'axios'
-import { useState } from 'react'
 import AuthPage from './components/auth'
 import { NotificationContainer } from 'react-notifications'
+import AdminPage from './components/admin/adminPage'
+import { useSelector } from 'react-redux'
 
 
-function App () {
- 
+function App() {
+  const { loggedIn } = useSelector((state) => state.user);
 
   return (
-    <div>
-      <AuthPage />
-      <NotificationContainer/>
+    <div className="App">
+      {loggedIn ? <AdminPage /> : <AuthPage />}
+      <NotificationContainer />
     </div>
-
-  )
+  );
 }
 
 export default App
