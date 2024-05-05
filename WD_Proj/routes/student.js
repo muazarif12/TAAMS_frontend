@@ -27,6 +27,24 @@ router.post('/viewApplicationStatus', async (req, res) => {
     }
 });
 
+router.get("/getStudentInfo", async (req, res) => {
+
+    try{
+        
+        let stv = await student.findOne({email : req.user.email}).select('-_id -password -isDeleted -active -createdby -updatedby -updatedAt -createdAt ');
+        if(!stv) return res.json({msg: "no students found"});
+        
+        return res.json({stv});
+        
+    }
+
+    catch (error){
+        console.error(error);
+            
+    }
+
+});
+
 
 
 router.get('/viewAllslots', async (req, res) => {
