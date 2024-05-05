@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 
 function App() {
   const { loggedIn } = useSelector((state) => state.user);
-
+   
   return (
     <div className="App">
       {loggedIn ? <AdminPage /> : <AuthPage />}

@@ -1,18 +1,17 @@
+import { useFormik } from "formik";
 import { NotificationManager } from "react-notifications";
 import { useSelector } from "react-redux";
-import { useFormik } from "formik";
 
 
-const AddCourseForm = ()  => {
+const assignCourseToTeacherForm = ()  => {
     const token = useSelector((state) => state.user.token);
 
     
-    const useFormik = useFormik({
+    const formik = useFormik({
         initialValues: {
+          teacherEmail: "",
           courseID: "",
-          name: "",
-          department: "",
-          credits:""
+          
         },
         onSubmit: async (values) => {
           const response = await axios({
@@ -22,7 +21,7 @@ const AddCourseForm = ()  => {
             headers: { Authorization: `Bearer ${token}` },
           });
 
-          if (response.data.msg === "COURSE ADDED" && response.status === 200) {
+          if (response.data.msg === "COURSE ASSIGNED TO TEACHER" && response.status === 200) {
             NotificationManager.success(response.data.msg);
             dispatch(login(response.data.token));
           }
@@ -38,4 +37,4 @@ const AddCourseForm = ()  => {
     )
 };
 
-export default AddCourseForm;
+export default assignCourseToTeacherForm;
