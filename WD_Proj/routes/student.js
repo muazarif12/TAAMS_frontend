@@ -31,10 +31,11 @@ router.get("/getStudentInfo", async (req, res) => {
 
     try{
         
-        let stv = await student.findOne({email : req.user.email}).select('-_id -password -isDeleted -active -createdby -updatedby -updatedAt -createdAt ');
+        let stv = await student.findOne({email : req.user.email})
         if(!stv) return res.json({msg: "no students found"});
-        
+        console.log(stv)
         return res.json({stv});
+        
         
     }
 
