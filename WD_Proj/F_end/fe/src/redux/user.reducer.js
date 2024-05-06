@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loggedIn: false,
   token: "",
-}
+  role: "", // Add the initial empty role property
+};
 
 const userSlice = createSlice({
   name: "user",
@@ -11,11 +12,13 @@ const userSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.loggedIn = true;
-      state.token = action.payload;
+      state.token = action.payload.token; // Access token from payload
+      state.role = action.payload.role; // Access role from payload (assuming the action payload has both)
     },
     logout: (state) => {
-      state.loggedIn = initialState.loggedIn;
-      state.token = initialState.loggedIn;
+      state.loggedIn = false;
+      state.token = "";
+      state.role = ""; // Reset role on logout
     },
   },
 });
