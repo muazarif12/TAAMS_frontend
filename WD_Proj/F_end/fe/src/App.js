@@ -4,28 +4,32 @@ import AdminPage from './components/admin/adminPage';
 import TeacherPage from './components/teacher/teacherPage';  // Import TeacherPage component
 import StudentPage from './components/student/studentPage';  // Import StudentPage component
 import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import ProtectedRoutes from './components/utils/ProtectedRoutes';
 
 function App() {
+  
   const { loggedIn, role } = useSelector((state) => state.user);
 
-  return (
-    <div className="App">
-      {loggedIn ? (
-        role === 'admin' ? (
-          <AdminPage /> // Render AdminPage for admin role
-        ) : role === 'teacher' ? (
-          <TeacherPage /> // Render TeacherPage for teacher role (assuming it exists)
-        ) : role === 'student' ? (
-          <StudentPage /> // Render StudentPage for student role (assuming it exists)
-        ) : (
-          <p>Invalid Role</p> // Handle unexpected roles
-        )
-      ) : (
-        <AuthPage /> // Render AuthPage if not logged in
-      )}
+    return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<AuthPage />} />
+        <Route element={<ProtectedRoutes allowedRoles={['admin']} />}>
+          <Route path="/admin" element={<AdminPage />} /> 
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={['teacher']} />}>
+          <Route path="/teacher" element={<TeacherPage />} />
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={['student']} />}>
+          <Route path="/student" element={<StudentPage />} />
+        </Route>
+      </Routes>
       <NotificationContainer />
-    </div>
+    </Router>
+
   );
+  
 }
 
 export default App;

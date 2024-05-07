@@ -4,9 +4,11 @@ import axios from 'axios';
 import { NotificationManager } from "react-notifications";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/user.reducer";
+import { useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -18,7 +20,23 @@ const LogIn = () => {
       const response = await axios.post('http://localhost:5600/auth/login', values);
       if (response.data.msg === "Logged in" && response.status === 200) {
         NotificationManager.success(response.data.msg);
-        dispatch(login({ token: response.data.token, role: values.role })); // Pass role in login action payload
+        dispatch(login({ token: response.data.token, role: values.role })); 
+
+        
+        switch (values.role) {
+          case 'admin':
+            navigate('/admin');
+            break;
+          case 'teacher':
+            navigate('/teacher');
+            break;
+          case 'student':
+            navigate('/student');
+            break;
+          default:
+            navigate('/unauthorized');  
+            break;
+        }
       } else {
         NotificationManager.error(response.data.msg || response.data.error);
       }
