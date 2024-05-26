@@ -1,4 +1,5 @@
 import AuthPage from './components/auth';
+import './App.css';
 import { NotificationContainer } from 'react-notifications';
 import AdminPage from './components/admin/adminPage';
 import TeacherPage from './components/teacher/teacherPage';  // Import TeacherPage component

@@ -1,12 +1,14 @@
-import { TextField, Button } from '@mui/material';
+import { Grid, TextField, Button, Paper, Avatar, Typography } from '@mui/material';
 import { useFormik } from "formik";
 import axios from 'axios';
 import { NotificationManager } from "react-notifications";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/user.reducer";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-const LogIn = () => {
+
+const LogIn = ({handleChange}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,9 +22,9 @@ const LogIn = () => {
       const response = await axios.post('http://localhost:5600/auth/login', values);
       if (response.data.msg === "Logged in" && response.status === 200) {
         NotificationManager.success(response.data.msg);
-        dispatch(login({ token: response.data.token, role: values.role })); 
+        dispatch(login({ token: response.data.token, role: values.role }));
 
-        
+
         switch (values.role) {
           case 'admin':
             navigate('/admin');
@@ -34,7 +36,7 @@ const LogIn = () => {
             navigate('/student');
             break;
           default:
-            navigate('/unauthorized');  
+            navigate('/unauthorized');
             break;
         }
       } else {
@@ -44,35 +46,54 @@ const LogIn = () => {
   });
 
   return (
-    <form
-      style={{ display: "flex", flexDirection: "column" }}
-      onSubmit={formik.handleSubmit}
-    >
+   
+    <Grid >      
+      <form onSubmit={formik.handleSubmit}>    
+      <Paper elevation={10} style={{ padding: 20, height: '45vh', width: 280, margin: "0 auto" }}>
+      <Grid align='center'>
+        <Avatar style={{ backgroundColor: '#1bbd7e' }}><LockOutlinedIcon /></Avatar>
+        <h2>LogIn</h2>
+      </Grid>
       <TextField
         onChange={formik.handleChange}
         value={formik.values.email}
         name="email"
         label="Email"
-        variant="outlined"
+        placeholder='Enter Email'
+        variant="standard"
+        fullWidth required
       />
       <TextField
         onChange={formik.handleChange}
         value={formik.values.password}
         name="password"
         label="Password"
-        variant="outlined"
+        placeholder='Enter Password'
+        variant="standard"
+        fullWidth required
       />
+
       <TextField
         onChange={formik.handleChange}
         value={formik.values.role}
         name="role"
         label="Role"
-        variant="outlined"
+        placeholder='Enter Role'
+        variant="standard"
+        fullWidth required
       />
-      <Button type="Submit" variant="contained">
-        LogIn
-      </Button>
+      <Button type='submit' color='primary' variant="contained" style={{ margin: '8px 0' }} fullWidth>Log in</Button>
+
+      <Typography>
+        Don't have an account?
+        <Link href="#" onClick={()=>handleChange("event",1)} style={{ marginLeft: '5px' }}>
+          Sign Up here
+        </Link>
+      </Typography>
+
+    </Paper>
     </form>
+    </Grid>
   );
 };
 
