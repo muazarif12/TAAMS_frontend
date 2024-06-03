@@ -8,6 +8,12 @@ import AddCourseForm from "./addCourseForm"; // Assuming addCourseForm is in the
 import AssignTeacherToCourseForm from "./assignTeacherToCourseForm"; // Assuming assignTeachertoCourseForm is in the same directory
 import UpdateCourseForm from "./updateCourseForm"; // Assuming updateCourseForm is in the same directory
 
+import Topbar from '../topbar/Topbar'; // Import the Topbar component
+import Sidebar from "../sidebar/Sidebar";
+import "./aP.css";
+import Home from "./pages/home/Home";
+import BasicDateCalendar from "../Calender/Calender";
+
 const AdminPage = () => {
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
@@ -29,36 +35,45 @@ const AdminPage = () => {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h4">Admin Dashboard</Typography>
+    // <Box sx={{ padding: 2 }}>
+    //   <Typography variant="h4">Admin Dashboard</Typography>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <h2>Course Management</h2>
-          <AddCourseForm />
-          <AssignTeacherToCourseForm />
-        </Grid>
-        <Grid item xs={12}>
-          <h2>Existing Courses</h2>
-          {coursesData.length > 0 ? (
-            coursesData.map((course) => (
-              <Paper key={course._id} sx={{ padding: 2, mb: 2 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Typography variant="body1">{course.courseName}</Typography>
-                  </Grid>
-                  <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <UpdateCourseForm course={course} />
-                  </Grid>
-                </Grid>
-              </Paper>
-            ))
-          ) : (
-            <Typography variant="body1">No courses found.</Typography>
-          )}
-        </Grid>
-      </Grid>
-    </Box>
+    //   <Grid container spacing={2}>
+    //     <Grid item xs={12}>
+    //       <h2>Course Management</h2>
+    //       <AddCourseForm />
+    //       <AssignTeacherToCourseForm />
+    //     </Grid>
+    //     <Grid item xs={12}>
+    //       <h2>Existing Courses</h2>
+    //       {coursesData.length > 0 ? (
+    //         coursesData.map((course) => (
+    //           <Paper key={course._id} sx={{ padding: 2, mb: 2 }}>
+    //             <Grid container spacing={2}>
+    //               <Grid item xs={6}>
+    //                 <Typography variant="body1">{course.courseName}</Typography>
+    //               </Grid>
+    //               <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
+    //                 <UpdateCourseForm course={course} />
+    //               </Grid>
+    //             </Grid>
+    //           </Paper>
+    //         ))
+    //       ) : (
+    //         <Typography variant="body1">No courses found.</Typography>
+    //       )}
+    //     </Grid>
+    //   </Grid>
+    // </Box>
+    <div>      
+      <Topbar />
+    <div className="container">
+        <Sidebar />
+        <Home/>
+        
+        {/* <BasicDateCalendar /> */}
+      </div>
+    </div> 
   );
 };
 

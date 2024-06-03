@@ -7,6 +7,8 @@ import StudentPage from './components/student/studentPage';  // Import StudentPa
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ProtectedRoutes from './components/utils/ProtectedRoutes';
+import Courses from './components/admin/pages/courses/Courses';
+import Teachers from './components/admin/pages/teachers/Teachers';
 
 function App() {
   
@@ -15,16 +17,25 @@ function App() {
     return (
     <Router>
       <Routes>
+        
         <Route path="/" element={<AuthPage />} />
+        
         <Route element={<ProtectedRoutes allowedRoles={['admin']} />}>
-          <Route path="/admin" element={<AdminPage />} /> 
+          <Route path="/admin" element={<AdminPage/>} /> 
+          <Route path ="/admin/courses" element={<Courses/>} />
+          <Route path ="/admin/teachers" element={<Teachers/>} />
         </Route>
+        
         <Route element={<ProtectedRoutes allowedRoles={['teacher']} />}>
           <Route path="/teacher" element={<TeacherPage />} />
+
         </Route>
+        
         <Route element={<ProtectedRoutes allowedRoles={['student']} />}>
           <Route path="/student" element={<StudentPage />} />
+          
         </Route>
+      
       </Routes>
       <NotificationContainer />
     </Router>
