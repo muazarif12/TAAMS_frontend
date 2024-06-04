@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ProtectedRoutes from './components/utils/ProtectedRoutes';
 import Courses from './components/admin/pages/courses/Courses';
 import Teachers from './components/admin/pages/teachers/Teachers';
+import AddCourseForm from './components/admin/addCourseForm';
+import UpdateCourseForm from './components/admin/updateCourseForm';
 
 function App() {
   
@@ -23,6 +25,8 @@ function App() {
         <Route element={<ProtectedRoutes allowedRoles={['admin']} />}>
           <Route path="/admin" element={<AdminPage/>} /> 
           <Route path ="/admin/courses" element={<Courses/>} />
+          <Route path ="/admin/courses/add" element={<AddCourseForm/>} />
+          <Route path ="/admin/courses/update/:courseID" element={<UpdateCourseForm/>} />
           <Route path ="/admin/teachers" element={<Teachers/>} />
         </Route>
         

@@ -4,6 +4,7 @@ const initialState = {
     courses:[],
     applications:[],
     slots:[],
+    teachers:[],
 };
 
 const appSlice = createSlice({
@@ -19,8 +20,11 @@ const appSlice = createSlice({
         setApplications: (state,action) => {
             state.applications = action.payload;
         },
+        setTeachers: (state,action) => {
+            state.teachers = action.payload;
+        },
     },
 });
 
-export const { setCourses, setSlots, setApplications } = appSlice.actions;
+export const { setCourses, setSlots, setApplications,setTeachers } = appSlice.actions;
 export default appSlice;

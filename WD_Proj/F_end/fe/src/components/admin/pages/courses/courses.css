@@ -1,0 +1,53 @@
+/* <h2>Crud App with JSON Server</h2>
+      <button className='btn btn-success my-3'>Create +</button>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Credits</th>
+            <th>Teachers</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(courses) &&
+            courses.map((course, index) => (
+              <tr key={index}>
+                <td>{course.courseID}</td>
+                <td>{course.courseName}</td>
+                <td>{course.department}</td>
+                <td>{course.credits}</td>
+                <td>
+                  {Array.isArray(course.teachers) && course.teachers.map((teacher, idx) => (
+                    <div key={idx}>{teacher.firstName} {teacher.lastName}</div>
+                  ))}
+                </td>
+                <td>
+                  <button className='btn btn-primary'>Edit</button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div> */
+
+    .userListEdit{
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        background-color: #3bb077;
+        color: white;
+        cursor: pointer;
+        margin-right: 20px;
+    }
+    
+    .userListDelete{
+        color: red;
+        cursor: pointer;
+    }
+
+    .CreateCourseButton{
+        margin: 20px 0;
+    }
