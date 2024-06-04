@@ -28,7 +28,6 @@ function App() {
         
         <Route element={<ProtectedRoutes allowedRoles={['teacher']} />}>
           <Route path="/teacher" element={<TeacherPage />} />
-
         </Route>
         
         <Route element={<ProtectedRoutes allowedRoles={['student']} />}>
