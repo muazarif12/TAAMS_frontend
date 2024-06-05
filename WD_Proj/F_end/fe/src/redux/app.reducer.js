@@ -5,6 +5,7 @@ const initialState = {
     applications:[],
     slots:[],
     teachers:[],
+    
 };
 
 const appSlice = createSlice({
@@ -23,6 +24,7 @@ const appSlice = createSlice({
         setTeachers: (state,action) => {
             state.teachers = action.payload;
         },
+        
     },
 });
 

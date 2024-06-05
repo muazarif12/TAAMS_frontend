@@ -2,7 +2,6 @@ import Topbar from '../topbar/Topbar'; // Import the Topbar component
 import Sidebar from "../sidebar/Sidebar";
 import "./aP.css";
 import Home from "./pages/home/Home";
-import BasicDateCalendar from "../Calender/Calender";
 
 const AdminPage = () => {
   
@@ -14,7 +13,6 @@ const AdminPage = () => {
         <Sidebar />
         <Home/>
         
-        {/* <BasicDateCalendar /> */}
       </div>
     </div> 
   );

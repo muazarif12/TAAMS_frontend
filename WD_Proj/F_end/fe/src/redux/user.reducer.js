@@ -20,8 +20,9 @@ const userSlice = createSlice({
       state.token = "";
       state.role = ""; // Reset role on logout
     },
+    
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout,  } = userSlice.actions;
 export default userSlice;

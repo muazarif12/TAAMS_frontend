@@ -25,6 +25,8 @@ const LogIn = ({handleChange}) => {
         dispatch(login({ token: response.data.token, role: values.role }));
 
 
+
+
         switch (values.role) {
           case 'admin':
             navigate('/admin');
@@ -43,6 +45,8 @@ const LogIn = ({handleChange}) => {
         NotificationManager.error(response.data.msg || response.data.error);
       }
     },
+
+    
   });
 
   return (
